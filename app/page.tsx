@@ -3,6 +3,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { FieldValues, useForm } from "react-hook-form";
+import { toast } from "sonner";
+
+type Data = {
+  address: string;
+  email: string;
+  first_name: string;
+  gender: string;
+  last_name: string;
+  password: string;
+  phone: string;
+};
 
 export default function Home() {
   const {
@@ -13,14 +24,50 @@ export default function Home() {
 
   const submit = (e: FieldValues) => {
     console.log(e);
+    createUser(e as Data);
   };
+
+  async function createUser(data: Data) {
+    try {
+      const res = await toast
+        .promise(
+          async () => {
+            return (
+              await fetch("http://localhost:3000/api/signin", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+              })
+            ).json();
+          },
+          {
+            loading: "Loading...",
+            success: (res) => {
+              console.log(res);
+              return `${res}`;
+            },
+            error: "Error",
+          }
+        )
+        .unwrap();
+
+      console.log(res);
+    } catch (error) {
+      const msg =
+        error instanceof Error ? error.message : "Something bad happened!";
+      toast.error(msg);
+    }
+  }
+
   return (
     <main className="flex border-2 h-screen bg-accent items-center justify-center border-red-400  mx-auto ">
-      <section className="max-w-[920px] max-h-[560px] w-full flex border-2  border-green-400 ">
-        <aside className="w-1/2 border-2 border-blue-400 "></aside>
+      <section className="max-w-[920px] max-h-[560px] w-full grid grid-cols-2 border-2 border-green-400">
+        <aside className="border-2 border-blue-400 "></aside>
         <form
           onSubmit={handleSubmit(submit)}
-          className="w-1/2 px-10 border-2 border-yellow-400 "
+          className="px-10 border-2 border-yellow-400 "
         >
           <div className="w-full space-y-3">
             <div className="flex gap-2 ">
