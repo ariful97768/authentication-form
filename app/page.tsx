@@ -78,7 +78,7 @@ export default function Home() {
               />
             </div>
             <div className="w-full">
-              <Label htmlFor="address">Email address</Label>
+              <Label htmlFor="email">Email address</Label>
               <Input
                 className={`${
                   errors.email &&
@@ -119,6 +119,7 @@ export default function Home() {
                 <div className="flex gap-2 items-center">
                   <Label htmlFor="female">Female</Label>
                   <Input
+                    {...register("gender", { required: true })}
                     value={"female"}
                     type="radio"
                     name="gender"
