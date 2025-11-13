@@ -7,8 +7,12 @@ import { Label } from "@/components/ui/label";
 const Calculator = () => {
   useEffect(() => {
     const form = document.getElementById("form");
-    const totalExpenseElement = document.getElementById("total-expense");
-    const balanceElement = document.getElementById("balance");
+    const totalExpenseElement = document.getElementById(
+      "total-expense"
+    ) as HTMLInputElement;
+    const balanceElement = document.getElementById(
+      "balance"
+    ) as HTMLInputElement;
     const savingsBtn = document.getElementById("savings");
     const savingsTotalElement = document.getElementById("savings-total");
     const remainingElement = document.getElementById("remaining");
@@ -16,10 +20,18 @@ const Calculator = () => {
     form?.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      const income = Number(document.getElementById("income")?.value);
-      const food = Number(document.getElementById("food")?.value);
-      const rent = Number(document.getElementById("rent")?.value);
-      const others = Number(document.getElementById("others")?.value);
+      const income = Number(
+        (document.getElementById("income") as HTMLInputElement)?.value
+      );
+      const food = Number(
+        (document.getElementById("food") as HTMLInputElement)?.value || 0
+      );
+      const rent =
+        Number((document.getElementById("rent") as HTMLInputElement)?.value) ||
+        0;
+      const others = Number(
+        (document.getElementById("others") as HTMLInputElement)?.value
+      );
 
       const totalExpense = food + rent + others;
       const balance = income - totalExpense;
@@ -32,20 +44,32 @@ const Calculator = () => {
       e.preventDefault();
 
       const savingsPercent = Number(
-        document.getElementById("savingsInp")?.value
+        (document.getElementById("savingsInp") as HTMLInputElement)?.value
       );
-      const income = Number(document.getElementById("income")?.value);
-      const food = Number(document.getElementById("food")?.value);
-      const rent = Number(document.getElementById("rent")?.value);
-      const others = Number(document.getElementById("others")?.value);
+      const income = Number(
+        (document.getElementById("income") as HTMLInputElement)?.value
+      );
+      const food = Number(
+        (document.getElementById("food") as HTMLInputElement)?.value
+      );
+      const rent = Number(
+        (document.getElementById("rent") as HTMLInputElement)?.value
+      );
+      const others = Number(
+        (document.getElementById("others") as HTMLInputElement)?.value
+      );
 
       const totalExpense = food + rent + others;
       const balance = income - totalExpense;
       const savingsAmount = (income * savingsPercent) / 100;
       const remaining = balance - savingsAmount;
 
-      savingsTotalElement.textContent = `Savings: ${savingsAmount}`;
-      remainingElement.textContent = `Remaining: ${remaining}`;
+      if (savingsTotalElement) {
+        savingsTotalElement.textContent = `Savings: ${savingsAmount}`;
+      }
+      if (remainingElement) {
+        remainingElement.textContent = `Remaining: ${remaining}`;
+      }
     });
   }, []);
 
