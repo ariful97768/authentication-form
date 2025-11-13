@@ -210,6 +210,9 @@ export default function Home() {
           <Link href={"/users"}>
             <Button className="w-full mt-5">All Users</Button>
           </Link>
+          <Link href={"/calculator"}>
+            <Button className="w-full mt-5">Calculator</Button>
+          </Link>
         </form>
       </section>
     </main>
