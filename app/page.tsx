@@ -4,6 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import auth from "@/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import Image from "next/image";
+import Link from "next/link";
 import { FieldValues, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -78,12 +80,19 @@ export default function Home() {
   }
 
   return (
-    <main className="flex border-2 h-screen bg-accent items-center justify-center border-red-400  mx-auto ">
-      <section className="max-w-[920px] max-h-[560px] w-full grid grid-cols-2 border-2 border-green-400">
-        <aside className="border-2 border-blue-400 "></aside>
+    <main className="flex h-screen bg-accent items-center justify-center mx-auto ">
+      <section className="max-w-[920px] bg-white  w-full grid grid-cols-2">
+        <aside className="border-2 border-blue-400 relative">
+          <Image
+            src={"/auth-img.jpg"}
+            fill
+            className="object-cover"
+            alt="Authentication Image"
+          />
+        </aside>
         <form
           onSubmit={handleSubmit(submit)}
-          className="px-10 border-2 border-yellow-400 "
+          className="p-10"
         >
           <div className="w-full space-y-3">
             <div className="flex gap-2 ">
@@ -198,6 +207,9 @@ export default function Home() {
             </div>
           </div>
           <Button className="w-full mt-5">Signup</Button>
+          <Link href={"/users"}>
+            <Button className="w-full mt-5">All Users</Button>
+          </Link>
         </form>
       </section>
     </main>
