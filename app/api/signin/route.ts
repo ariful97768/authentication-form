@@ -2,12 +2,13 @@
 import users from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
-  } finally {
+    const usersData = await users.find().toArray();
+    return NextResponse.json(usersData);
+  } catch (err) {
+    return NextResponse.json(err);
   }
-
-  return NextResponse.json("api working");
 }
 
 export async function POST(req: NextRequest) {
