@@ -2,6 +2,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import auth from "@/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { FieldValues, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -22,9 +24,23 @@ export default function Home() {
     formState: { errors },
   } = useForm();
 
-  const submit = (e: FieldValues) => {
-    console.log(e);
-    createUser(e as Data);
+  const submit = async (e: FieldValues) => {
+    try {
+      const email = e.email;
+      const password = e.password;
+      if (!email || !password)
+        throw new Error("Email or Password did not provided");
+
+      await createUserWithEmailAndPassword(auth, email, password);
+      createUser(e as Data);
+    } catch (error) {
+      const msg =
+        error instanceof Error ? error.message : "Something bad happened!";
+      if (msg.includes("email-already-in-use"))
+        return toast.message("Email already used");
+
+      toast.error(msg);
+    }
   };
 
   async function createUser(data: Data) {
