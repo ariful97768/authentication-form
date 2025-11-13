@@ -1,4 +1,5 @@
 import users from "@/lib/db";
+export const dynamic = "force-dynamic";
 
 const Users = async () => {
   const usersData = await users.find().toArray();
